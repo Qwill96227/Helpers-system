@@ -1,0 +1,12 @@
+<!-- views/index.ejs -->
+<% tasks.forEach(task => { %>
+    <div>
+      <h2><%= task.title %></h2>
+      <form action="/subscribe" method="POST">
+        <input type="hidden" name="taskId" value="<%= task._id %>">
+        <input type="text" name="identifier" placeholder="Your Email or ID" required>
+        <button>Volunteer</button>
+      </form>
+    </div>
+  <% }) %>
+  
