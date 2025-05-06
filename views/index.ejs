@@ -1,12 +1,81 @@
-<!-- views/index.ejs -->
-<% tasks.forEach(task => { %>
-    <div>
-      <h2><%= task.title %></h2>
-      <form action="/subscribe" method="POST">
-        <input type="hidden" name="taskId" value="<%= task._id %>">
-        <input type="text" name="identifier" placeholder="Your Email or ID" required>
-        <button>Volunteer</button>
-      </form>
-    </div>
-  <% }) %>
-  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Helpers Home</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .task {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 1rem;
+      margin: 1rem auto;
+      max-width: 500px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    input, select, button {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      width: 90%;
+      max-width: 300px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .links {
+      margin-top: 2rem;
+    }
+
+    .links a {
+      margin: 0 10px;
+      color: #007BFF;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to the Helpers System</h1>
+
+  <% if (tasks.length > 0) { %>
+    <% tasks.forEach(task => { %>
+      <div class="task">
+        <h2><%= task.title %></h2>
+        <p><%= task.description %></p>
+        <form action="/volunteers/subscribe" method="POST">
+          <input type="hidden" name="taskId" value="<%= task._id %>">
+          <input type="text" name="name" placeholder="Your name" required />
+          <input type="email" name="email" placeholder="Your email" required />
+          <input type="text" name="identifier" placeholder="Your unique identifier" required />
+          <button type="submit">Volunteer for this Task</button>
+        </form>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <p>No tasks available at the moment.</p>
+  <% } %>
+
+  <div class="links">
+    <a href="/auth/login">Login</a>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/stats">View Stats</a>
+  </div>
+</body>
+</html>
