@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Subscribed Tasks</title>
+</head>
+<body>
+  <h1>Welcome, <%= volunteer.name %>!</h1>
+
+  <h2>You are currently subscribed to the following tasks:</h2>
+
+  <% if (volunteer.tasks.length > 0) { %>
+    <ul>
+      <% volunteer.tasks.forEach(task => { %>
+        <li>
+          <strong><%= task.title %></strong><br/>
+          <%= task.description %>
+        </li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>You are not subscribed to any tasks yet.</p>
+  <% } %>
+
+  <a href="/">Back to Home</a>
+</body>
+</html>
