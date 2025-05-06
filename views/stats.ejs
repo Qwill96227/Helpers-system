@@ -1,0 +1,7 @@
+<h1>Active Task Statistics</h1>
+<ul>
+  <% stats.forEach(stat => { %>
+    <li><%= stat.title %>: <%= stat.count %> volunteers</li>
+  <% }) %>
+</ul>
+<a href="/dashboard">Back to Dashboard</a>
