@@ -26,6 +26,9 @@ app.use('/volunteers', require('./routes/volunteers'));
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Running on ${PORT}`));
 
-app.get('/', (req, res) => {
-  res.redirect('/login');
+const Task = require('./models/Task');
+
+app.get('/', async (req, res) => {
+  const tasks = await Task.find({});
+  res.render('index', { tasks });
 });
