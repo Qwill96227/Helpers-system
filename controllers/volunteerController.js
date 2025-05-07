@@ -3,27 +3,30 @@ const Task = require('../models/Task');
 const TaskNotifier = require('../observer/TaskNotifier');
 
 exports.subscribe = async (req, res) => {
-  let volunteer = await Volunteer.findOne({ identifier: req.body.identifier });
-  if (!volunteer) {
-    volunteer = new Volunteer({
-      identifier: req.body.identifier,
-      name: req.body.name,
-      email: req.body.email
-    });
+  const { name, email, identifier, taskId } = req.body;
+
+  if (!identifier || !email || !taskId) {
+    return res.status(400).send("Missing required fields.");
   }
 
-  const task = await Task.findById(req.body.taskId);
+  let volunteer = await Volunteer.findOne({ identifier });
+
+  if (!volunteer) {
+    volunteer = new Volunteer({ name, email, identifier });
+    await volunteer.save();
+  }
+
+  const task = await Task.findById(taskId);
   if (!task.volunteers.includes(volunteer._id)) {
     task.volunteers.push(volunteer._id);
+    await task.save();
   }
+
   if (!volunteer.tasks.includes(task._id)) {
     volunteer.tasks.push(task._id);
+    await volunteer.save();
   }
 
-  await task.save();
-  await volunteer.save();
-
-  TaskNotifier.notify(task);
   res.redirect('/');
 };
 
