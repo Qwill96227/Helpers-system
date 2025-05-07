@@ -7,7 +7,7 @@ exports.login = async (req, res) => {
     req.session.userId = user._id;
     return res.redirect('/dashboard');
   }
-  res.redirect('/login?error=invalid');
+  res.redirect('/auth/login?error=1');
 };
 
 exports.logout = (req, res) => {
